@@ -33,23 +33,21 @@ pub fn calculate_g_force(a: &types::Particle, b: &types::Particle) -> types::Vec
 }
 
 pub fn apply(particles: &mut Vec<types::Particle>) {
-	let mut accelerations = vec![types::Vector { x: 0.0, y: 0.0 }; particles.len()];
+    let n = particles.len();
+    let mut accelerations = vec![types::Vector { x: 0.0, y: 0.0 }; n];
 
     // compute all forces
-    for i in 0..particles.len() {
-        let mut total_force = types::Vector { x: 0.0, y: 0.0 };
+    for i in 0..n {
+        for j in (i + 1)..n {
+            let force = calculate_g_force(&particles[i], &particles[j]);
 
-        for j in 0..particles.len() {
-            if i != j {
-                let force = calculate_g_force(&particles[i], &particles[j]);
+            accelerations[i].x += force.x / particles[i].mass;
+            accelerations[i].y += force.y / particles[i].mass;
 
-                total_force.x += force.x;
-                total_force.y += force.y;
-            }
+            // Newton's 3rd law
+            accelerations[j].x -= force.x / particles[j].mass;
+            accelerations[j].y -= force.y / particles[j].mass;
         }
-
-        accelerations[i].x = total_force.x / particles[i].mass;
-        accelerations[i].y = total_force.y / particles[i].mass;
     }
 
     // update positions
