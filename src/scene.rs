@@ -9,7 +9,7 @@ pub fn draw_particles(particles: &Vec<types::Particle>) {
         draw_circle(
             particles[i].position.x,
             particles[i].position.y,
-            particles[i].mass,
+            particles[i].radius,
             WHITE,
         );
     }

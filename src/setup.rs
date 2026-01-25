@@ -11,6 +11,7 @@ pub fn random_particles(n: i32, particles: &mut Vec<types::Particle>) {
     particles.reserve(n as usize);
 
     for _ in 0..n {
+        let radius = rng.random_range(consts::MINIMUM_MASS..60.0);
         let position = types::Vector {
             x: rng.random_range(
                 (consts::WINDOW_WIDTH / 5.0)..(consts::WINDOW_WIDTH - consts::WINDOW_WIDTH / 5.0),
@@ -24,7 +25,8 @@ pub fn random_particles(n: i32, particles: &mut Vec<types::Particle>) {
         let velocity = types::Vector { x: 0.0, y: 0.0 };
 
         let particle = types::Particle {
-            mass: rng.random_range(consts::MINIMUM_MASS..60.0),
+            mass: radius,
+            radius: radius,
             position: position,
             velocity: velocity,
         };
@@ -48,10 +50,11 @@ pub fn orbital_system(n: i32, particles: &mut Vec<types::Particle>) {
     // center particle
     particles.push(types::Particle {
         mass: r1,
+        radius: r1,
         position: types::Vector { x: cx, y: cy },
         velocity: types::Vector { x: 0.0, y: 0.0 },
     });
-    
+
     println!("Spawned at {:?}", [cx, cy]);
 
     // orbiting particles
@@ -75,8 +78,12 @@ pub fn orbital_system(n: i32, particles: &mut Vec<types::Particle>) {
         let vx = -dy / r * speed;
         let vy = dx / r * speed;
 
+        // ACTUAL radius value
+        let radius_property = rng.random_range(consts::MINIMUM_MASS..(r1 / 3.0));
+
         particles.push(types::Particle {
-            mass: rng.random_range(consts::MINIMUM_MASS..(r1 / 3.0)),
+            mass: radius_property,
+            radius: radius_property,
             position: types::Vector { x: x, y: y },
             velocity: types::Vector { x: vx, y: vy },
         });
