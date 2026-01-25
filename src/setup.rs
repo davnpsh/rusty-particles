@@ -29,6 +29,7 @@ pub fn random_particles(n: i32, particles: &mut Vec<types::Particle>) {
             radius: radius,
             position: position,
             velocity: velocity,
+            fixed_on_screen: false,
         };
 
         particles.push(particle);
@@ -53,9 +54,10 @@ pub fn orbital_system(n: i32, particles: &mut Vec<types::Particle>) {
         radius: r1,
         position: types::Vector { x: cx, y: cy },
         velocity: types::Vector { x: 0.0, y: 0.0 },
+        fixed_on_screen: true,
     });
 
-    println!("Spawned at {:?}", [cx, cy]);
+    // println!("Spawned at {:?}", [cx, cy]);
 
     // orbiting particles
     for _ in 0..n {
@@ -86,8 +88,9 @@ pub fn orbital_system(n: i32, particles: &mut Vec<types::Particle>) {
             radius: radius_property,
             position: types::Vector { x: x, y: y },
             velocity: types::Vector { x: vx, y: vy },
+            fixed_on_screen: false,
         });
 
-        println!("Spawned at {:?}", [x, y]);
+        // println!("Spawned at {:?}", [x, y]);
     }
 }

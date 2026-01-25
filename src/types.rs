@@ -9,4 +9,5 @@ pub struct Particle {
     pub radius: f32,
     pub position: Vector,
     pub velocity: Vector,
+    pub fixed_on_screen: bool,
 }
