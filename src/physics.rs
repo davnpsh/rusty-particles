@@ -8,19 +8,19 @@ pub fn update_particle_position(p: &mut types::Particle) {
     // detect collisions left/right walls
     if p.position.x - p.radius < 0.0 {
         p.position.x = p.radius;
-        p.velocity.x = -p.velocity.x;
+        p.velocity.x = -p.velocity.x * consts::RESTITUTION;
     } else if p.position.x + p.radius > consts::WINDOW_WIDTH {
         p.position.x = consts::WINDOW_WIDTH - p.radius;
-        p.velocity.x = -p.velocity.x;
+        p.velocity.x = -p.velocity.x * consts::RESTITUTION;
     }
 
     // detect collisions top/bottom walls
     if p.position.y - p.radius < 0.0 {
         p.position.y = p.radius;
-        p.velocity.y = -p.velocity.y;
+        p.velocity.y = -p.velocity.y * consts::RESTITUTION;
     } else if p.position.y + p.radius > consts::WINDOW_HEIGHT {
         p.position.y = consts::WINDOW_HEIGHT - p.radius;
-        p.velocity.y = -p.velocity.y;
+        p.velocity.y = -p.velocity.y * consts::RESTITUTION;
     }
 }
 

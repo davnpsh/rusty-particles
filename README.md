@@ -4,7 +4,7 @@ Practicing Rust!!!!!!!! :D
 
 ## TODO features
 
-- [ ] Collisions between particles and screen
+- [X] Collisions between particles and screen
 - [ ] Collisions between particles
 - [ ] Concurrency to support more particles :D
 - [ ] Pause simulation
