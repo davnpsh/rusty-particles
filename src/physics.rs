@@ -4,6 +4,24 @@ use crate::types;
 pub fn update_particle_position(p: &mut types::Particle) {
     p.position.x += p.velocity.x;
     p.position.y += p.velocity.y;
+
+    // detect collisions left/right walls
+    if p.position.x - p.radius < 0.0 {
+        p.position.x = p.radius;
+        p.velocity.x = -p.velocity.x;
+    } else if p.position.x + p.radius > consts::WINDOW_WIDTH {
+        p.position.x = consts::WINDOW_WIDTH - p.radius;
+        p.velocity.x = -p.velocity.x;
+    }
+
+    // detect collisions top/bottom walls
+    if p.position.y - p.radius < 0.0 {
+        p.position.y = p.radius;
+        p.velocity.y = -p.velocity.y;
+    } else if p.position.y + p.radius > consts::WINDOW_HEIGHT {
+        p.position.y = consts::WINDOW_HEIGHT - p.radius;
+        p.velocity.y = -p.velocity.y;
+    }
 }
 
 pub fn calculate_distance_vector(a: &types::Particle, b: &types::Particle) -> types::Vector {
