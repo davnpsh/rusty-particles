@@ -5,16 +5,16 @@ const WINDOW_HEIGHT: f32 = 720.0;
 const CELL_SIZE: f32 = calculate_grid_cell_size();
 
 const fn calculate_grid_cell_size() -> f32 {
-	let mut a = WINDOW_WIDTH;
-	let mut b = WINDOW_HEIGHT;
-	let mut temp: f32;
-	
-	while b != 0.0 {
-    	temp = b;
-     	b = a % b;
-     	a = temp;
+    let mut a = WINDOW_WIDTH;
+    let mut b = WINDOW_HEIGHT;
+    let mut temp: f32;
+
+    while b != 0.0 {
+        temp = b;
+        b = a % b;
+        a = temp;
     }
-    
+
     return a;
 }
 
@@ -33,16 +33,27 @@ fn draw_grid() {
 
         i += CELL_SIZE;
     }
+
+    // horizontal lines
+    i = CELL_SIZE;
+    while i < WINDOW_HEIGHT {
+        (x1, y1) = (0.0, i);
+        (x2, y2) = (WINDOW_WIDTH, i);
+
+        draw_line(x1, y1, x2, y2, 1.0, GRAY);
+
+        i += CELL_SIZE;
+    }
 }
 
 fn window_configuration() -> window::Conf {
-	window::Conf {
-		window_title: String::from("Rusty Particles"),
-		window_width: WINDOW_WIDTH as i32,
-		window_height: WINDOW_HEIGHT as i32,
-		window_resizable: false,
-		..Default::default()
-	}
+    window::Conf {
+        window_title: String::from("Rusty Particles"),
+        window_width: WINDOW_WIDTH as i32,
+        window_height: WINDOW_HEIGHT as i32,
+        window_resizable: false,
+        ..Default::default()
+    }
 }
 
 #[macroquad::main(window_configuration)]
