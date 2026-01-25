@@ -5,7 +5,7 @@ const WINDOW_WIDTH: f32 = 1280.0;
 const WINDOW_HEIGHT: f32 = 720.0;
 const CELL_SIZE: f32 = calculate_grid_cell_size();
 const DIMENSIONS: usize = 2;
-const PARTICLES_QUANTITY: i32 = 2;
+const PARTICLES_QUANTITY: i32 = 3;
 
 // physics stuff
 const G: f32 = 6.67430e-11;
@@ -97,13 +97,29 @@ fn generate_random_particles(n: i32, particles: &mut Vec<Particle>) {
     particles.reserve(n as usize);
 
     for _ in 0..n {
+        // WARNING: Specific to 2D space!!!!
+        let position: Vector = [
+            rng.random_range(0.0..WINDOW_WIDTH),
+            rng.random_range(0.0..WINDOW_HEIGHT),
+        ];
+
+        // WARNING: Specific to 2D space!!!!
+        let velocity: Vector = [rng.random_range(0.0..2.0), rng.random_range(0.0..2.0)];
+
         let particle = Particle {
             mass: rng.random_range(1.0..10.0),
-            position: [0.0; DIMENSIONS],
-            velocity: [0.0; DIMENSIONS],
+            position: position,
+            velocity: velocity,
         };
 
         particles.push(particle);
+    }
+}
+
+// WARNING: Specific to 2D space!!!!
+fn draw_particles(particles: &Vec<Particle>) {
+    for i in 0..particles.len() {
+        draw_circle(particles[i].position[0], particles[i].position[1], particles[i].mass, WHITE);
     }
 }
 
@@ -170,6 +186,7 @@ async fn main() {
         draw_grid();
 
         apply_physics(&mut particles);
+        draw_particles(&particles);
 
         next_frame().await;
     }
