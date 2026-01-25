@@ -36,6 +36,7 @@ fn calculate_distance_vector(a: &Particle, b: &Particle) -> Vector {
 
 fn calculate_g_force(a: &Particle, b: &Particle) -> Vector {
     let mut force = [0.0; DIMENSIONS];
+    let dead_zone = 5.0;
 
     let distance_vector = calculate_distance_vector(a, b);
     let mut distance = 0.0;
@@ -46,7 +47,8 @@ fn calculate_g_force(a: &Particle, b: &Particle) -> Vector {
 
     distance = distance.sqrt();
 
-    if distance == 0.0 {
+    // to avoid particles shooting each other out of the screen
+    if distance < dead_zone {
         return force;
     }
 
