@@ -8,7 +8,7 @@ const DIMENSIONS: usize = 2;
 const PARTICLES_QUANTITY: i32 = 3;
 
 // physics stuff
-const G: f32 = 6.67430e-11;
+const G: f32 = 0.7;
 
 type Vector = [f32; DIMENSIONS];
 
@@ -99,15 +99,15 @@ fn generate_random_particles(n: i32, particles: &mut Vec<Particle>) {
     for _ in 0..n {
         // WARNING: Specific to 2D space!!!!
         let position: Vector = [
-            rng.random_range(0.0..WINDOW_WIDTH),
-            rng.random_range(0.0..WINDOW_HEIGHT),
+            rng.random_range((WINDOW_WIDTH / 5.0)..(WINDOW_WIDTH - WINDOW_WIDTH / 5.0)),
+            rng.random_range((WINDOW_HEIGHT / 5.0)..(WINDOW_HEIGHT - WINDOW_HEIGHT / 5.0)),
         ];
 
         // WARNING: Specific to 2D space!!!!
-        let velocity: Vector = [rng.random_range(0.0..2.0), rng.random_range(0.0..2.0)];
+        let velocity: Vector = [0.0, 0.0];
 
         let particle = Particle {
-            mass: rng.random_range(1.0..10.0),
+            mass: rng.random_range(5.0..60.0),
             position: position,
             velocity: velocity,
         };
@@ -119,7 +119,12 @@ fn generate_random_particles(n: i32, particles: &mut Vec<Particle>) {
 // WARNING: Specific to 2D space!!!!
 fn draw_particles(particles: &Vec<Particle>) {
     for i in 0..particles.len() {
-        draw_circle(particles[i].position[0], particles[i].position[1], particles[i].mass, WHITE);
+        draw_circle(
+            particles[i].position[0],
+            particles[i].position[1],
+            particles[i].mass,
+            WHITE,
+        );
     }
 }
 
