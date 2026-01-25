@@ -56,17 +56,28 @@ pub fn apply(particles: &mut Vec<types::Particle>) {
 
     // compute all forces
     for i in 0..n {
-        for j in (i + 1)..n {
-            let force = calculate_g_force(&particles[i], &particles[j]);
+        let pi = &particles[i];
 
-            if !particles[i].fixed_on_screen {
-                accelerations[i].x += force.x / particles[i].mass;
-                accelerations[i].y += force.y / particles[i].mass;
+        for j in (i + 1)..n {
+            let pj = &particles[j];
+
+            if pi.fixed_on_screen && pj.fixed_on_screen {
+                continue;
             }
 
-            // Newton's 3rd law
-            accelerations[j].x -= force.x / particles[j].mass;
-            accelerations[j].y -= force.y / particles[j].mass;
+            let force = calculate_g_force(pi, pj);
+
+            if !pi.fixed_on_screen {
+                let inv_mass_i = 1.0 / pi.mass;
+                accelerations[i].x += force.x * inv_mass_i;
+                accelerations[i].y += force.y * inv_mass_i;
+            }
+
+            if !pj.fixed_on_screen {
+                let inv_mass_j = 1.0 / pj.mass;
+                accelerations[j].x -= force.x * inv_mass_j;
+                accelerations[j].y -= force.y * inv_mass_j;
+            }
         }
     }
 
