@@ -20,7 +20,8 @@ fn window_configuration() -> window::Conf {
 async fn main() {
     let mut particles: Vec<types::Particle> = Vec::new();
 
-    setup::random_particles(consts::PARTICLES_QUANTITY, &mut particles);
+    // setup::random_particles(consts::PARTICLES_QUANTITY, &mut particles);
+    setup::orbital_system(2, &mut particles);
 
     loop {
         scene::draw_grid();

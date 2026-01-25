@@ -14,7 +14,8 @@ pub const CELL_SIZE: f32 = {
     a
 };
 pub const DIMENSIONS: usize = 2;
-pub const PARTICLES_QUANTITY: i32 = 3;
+#[allow(dead_code)]
+pub const PARTICLES_QUANTITY: i32 = 500;
 
 // physics stuff
 pub const G: f32 = 0.7;

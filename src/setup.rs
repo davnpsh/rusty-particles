@@ -1,10 +1,12 @@
 use crate::consts;
 use crate::types;
 
-use ::rand::Rng;
+use rand::prelude::*;
+use std::f32::consts::PI;
 
+#[allow(dead_code)]
 pub fn random_particles(n: i32, particles: &mut Vec<types::Particle>) {
-    let mut rng = ::rand::rng();
+    let mut rng = rand::rng();
 
     particles.reserve(n as usize);
 
@@ -24,11 +26,44 @@ pub fn random_particles(n: i32, particles: &mut Vec<types::Particle>) {
         let velocity: types::Vector = [0.0, 0.0];
 
         let particle = types::Particle {
-            mass: rng.random_range(5.0..60.0),
+            mass: rng.random_range(10.0..60.0),
             position: position,
             velocity: velocity,
         };
 
         particles.push(particle);
+    }
+}
+
+#[allow(dead_code)]
+pub fn orbital_system(n: i32, particles: &mut Vec<types::Particle>) {
+    let mut rng = rand::rng();
+    let r1 = 100.0; // inner radius
+    let r2 = consts::WINDOW_HEIGHT / 2.0; // outer radius
+
+    // center particle
+    particles.push(types::Particle {
+        mass: r1,
+        position: [consts::WINDOW_WIDTH / 2.0, r2],
+        velocity: [0.0, 0.0],
+    });
+
+    // orbiting particles
+    for _ in 0..n {
+        let theta = rng.random_range(0.0..2.0 * PI);
+        let u: f32 = rng.random();
+
+        let r = (r1.powi(2) + (r2.powi(2) - r1.powi(2)) * u).sqrt();
+
+        let x = r * theta.cos() + consts::WINDOW_WIDTH / 2.0;
+        let y = r * theta.sin() + consts::WINDOW_HEIGHT / 2.0;
+
+        particles.push(types::Particle {
+            mass: rng.random_range(10.0..(r1 / 2.0)),
+            position: [x, y],
+            velocity: [0.0, 0.0],
+        });
+
+        println!("Spawned at {:?}", [x, y]);
     }
 }
