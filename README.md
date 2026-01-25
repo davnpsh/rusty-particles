@@ -8,7 +8,8 @@ Practicing Rust!!!!!!!! :D
 - [ ] Collisions between particles
 - [ ] Concurrency to support more particles :D
 - [ ] Pause simulation
-- [ ] Reset simulation
+- [ ] Reset simulation (Loop)
+- [ ] Randomize current preset
 - [ ] Load presets with quick buttons
 - [ ] Status bar with FPS, particle count, etc....
 - [ ] Show coordinates on mouse hover

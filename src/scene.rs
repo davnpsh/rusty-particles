@@ -7,8 +7,8 @@ use macroquad::prelude::*;
 pub fn draw_particles(particles: &Vec<types::Particle>) {
     for i in 0..particles.len() {
         draw_circle(
-            particles[i].position[0],
-            particles[i].position[1],
+            particles[i].position.x,
+            particles[i].position.y,
             particles[i].mass,
             WHITE,
         );
@@ -19,7 +19,7 @@ pub fn draw_grid() {
     let (mut x1, mut y1): (f32, f32);
     let (mut x2, mut y2): (f32, f32);
     let mut i: f32;
-    
+
     clear_background(BLACK);
 
     // vertical lines
