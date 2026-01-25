@@ -6,6 +6,7 @@ Practicing Rust!!!!!!!! :D
 
 - [ ] Collisions between particles and screen
 - [ ] Collisions between particles
+- [ ] Concurrency to support more particles :D
 - [ ] Pause simulation
 - [ ] Reset simulation
 - [ ] Load presets with quick buttons
