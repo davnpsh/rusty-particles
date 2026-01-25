@@ -21,7 +21,7 @@ async fn main() {
     let mut particles: Vec<types::Particle> = Vec::new();
 
     // setup::random_particles(consts::PARTICLES_QUANTITY, &mut particles);
-    setup::orbital_system(2, &mut particles);
+    setup::orbital_system(consts::PARTICLES_QUANTITY, &mut particles);
 
     loop {
         scene::draw_grid();
