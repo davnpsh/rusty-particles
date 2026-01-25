@@ -19,7 +19,7 @@ pub fn calculate_distance_vector(a: &types::Particle, b: &types::Particle) -> ty
 
 pub fn calculate_g_force(a: &types::Particle, b: &types::Particle) -> types::Vector {
     let mut force = [0.0; consts::DIMENSIONS];
-    let dead_zone = 10.0;
+    let dead_zone = consts::MINIMUM_MASS;
 
     let distance_vector = calculate_distance_vector(a, b);
     let mut distance = 0.0;

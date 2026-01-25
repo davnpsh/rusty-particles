@@ -26,7 +26,7 @@ pub fn random_particles(n: i32, particles: &mut Vec<types::Particle>) {
         let velocity: types::Vector = [0.0, 0.0];
 
         let particle = types::Particle {
-            mass: rng.random_range(10.0..60.0),
+            mass: rng.random_range(consts::MINIMUM_MASS..60.0),
             position: position,
             velocity: velocity,
         };
@@ -59,7 +59,7 @@ pub fn orbital_system(n: i32, particles: &mut Vec<types::Particle>) {
         let y = r * theta.sin() + consts::WINDOW_HEIGHT / 2.0;
 
         particles.push(types::Particle {
-            mass: rng.random_range(10.0..(r1 / 2.0)),
+            mass: rng.random_range(consts::MINIMUM_MASS..(r1 / 2.0)),
             position: [x, y],
             velocity: [0.0, 0.0],
         });
