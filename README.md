@@ -11,8 +11,13 @@ Practicing Rust!!!!!!!! :D
 - [ ] Reset simulation (Loop)
 - [ ] Randomize current preset
 - [ ] Load presets with quick buttons
-- [ ] Status bar with FPS, particle count, etc....
+- [X] Status bar with FPS, particle count, etc....
 - [ ] Show coordinates on mouse hover
 - [ ] Create particles with right-click
 - [ ] Drag particles with left-click (aaaand maybe give them acceleration?)
 - [ ] WEBASSEMBLY??????????????????
+
+## Problems
+
+- With 1000 particles -> 20 fps
+- With 2000 -> 5 fps

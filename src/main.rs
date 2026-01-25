@@ -28,6 +28,8 @@ async fn main() {
 
         physics::apply(&mut particles);
         scene::draw_particles(&particles);
+        
+        scene::display_status_bar();
 
         next_frame().await;
     }

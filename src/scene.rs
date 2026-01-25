@@ -15,6 +15,15 @@ pub fn draw_particles(particles: &Vec<types::Particle>) {
     }
 }
 
+pub fn display_status_bar() {
+	let fps = get_fps();
+	let particles_count = consts::PARTICLES_QUANTITY;
+
+	let status_text = format!("fps: {:>3}, particles: {}", fps, particles_count);
+	
+	draw_text(&status_text, 20.0, 20.0, 30.0, WHITE);
+}
+
 pub fn draw_grid() {
     let (mut x1, mut y1): (f32, f32);
     let (mut x2, mut y2): (f32, f32);
