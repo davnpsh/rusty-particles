@@ -1,16 +1,9 @@
+mod consts;
+
 use ::rand::Rng;
 use macroquad::{prelude::*, window};
 
-const WINDOW_WIDTH: f32 = 1280.0;
-const WINDOW_HEIGHT: f32 = 720.0;
-const CELL_SIZE: f32 = calculate_grid_cell_size();
-const DIMENSIONS: usize = 2;
-const PARTICLES_QUANTITY: i32 = 3;
-
-// physics stuff
-const G: f32 = 0.7;
-
-type Vector = [f32; DIMENSIONS];
+type Vector = [f32; consts::DIMENSIONS];
 
 struct Particle {
     mass: f32,
@@ -19,13 +12,13 @@ struct Particle {
 }
 
 fn update_particle_position(p: &mut Particle) {
-    for i in 0..DIMENSIONS {
+    for i in 0..consts::DIMENSIONS {
         p.position[i] += p.velocity[i];
     }
 }
 
 fn calculate_distance_vector(a: &Particle, b: &Particle) -> Vector {
-    let mut distance = [0.0; DIMENSIONS];
+    let mut distance = [0.0; consts::DIMENSIONS];
 
     for i in 0..distance.len() {
         distance[i] = b.position[i] - a.position[i];
@@ -35,7 +28,7 @@ fn calculate_distance_vector(a: &Particle, b: &Particle) -> Vector {
 }
 
 fn calculate_g_force(a: &Particle, b: &Particle) -> Vector {
-    let mut force = [0.0; DIMENSIONS];
+    let mut force = [0.0; consts::DIMENSIONS];
     let dead_zone = 5.0;
 
     let distance_vector = calculate_distance_vector(a, b);
@@ -52,9 +45,9 @@ fn calculate_g_force(a: &Particle, b: &Particle) -> Vector {
         return force;
     }
 
-    let force_magnitude = G * a.mass * b.mass / distance.powi(2);
+    let force_magnitude = consts::G * a.mass * b.mass / distance.powi(2);
 
-    for i in 0..DIMENSIONS {
+    for i in 0..consts::DIMENSIONS {
         force[i] = force_magnitude * (distance_vector[i] / distance);
     }
 
@@ -62,30 +55,30 @@ fn calculate_g_force(a: &Particle, b: &Particle) -> Vector {
 }
 
 fn apply_physics(particles: &mut Vec<Particle>) {
-    let mut accelerations = vec![[0.0; DIMENSIONS]; particles.len()];
+    let mut accelerations = vec![[0.0; consts::DIMENSIONS]; particles.len()];
 
     // compute all forces
     for i in 0..particles.len() {
-        let mut total_force = [0.0; DIMENSIONS];
+        let mut total_force = [0.0; consts::DIMENSIONS];
 
         for j in 0..particles.len() {
             if i != j {
                 let force = calculate_g_force(&particles[i], &particles[j]);
 
-                for k in 0..DIMENSIONS {
+                for k in 0..consts::DIMENSIONS {
                     total_force[k] += force[k];
                 }
             }
         }
 
-        for k in 0..DIMENSIONS {
+        for k in 0..consts::DIMENSIONS {
             accelerations[i][k] = total_force[k] / particles[i].mass;
         }
     }
 
     // update positions
     for i in 0..particles.len() {
-        for k in 0..DIMENSIONS {
+        for k in 0..consts::DIMENSIONS {
             particles[i].velocity[k] += accelerations[i][k];
         }
 
@@ -101,8 +94,13 @@ fn generate_random_particles(n: i32, particles: &mut Vec<Particle>) {
     for _ in 0..n {
         // WARNING: Specific to 2D space!!!!
         let position: Vector = [
-            rng.random_range((WINDOW_WIDTH / 5.0)..(WINDOW_WIDTH - WINDOW_WIDTH / 5.0)),
-            rng.random_range((WINDOW_HEIGHT / 5.0)..(WINDOW_HEIGHT - WINDOW_HEIGHT / 5.0)),
+            rng.random_range(
+                (consts::WINDOW_WIDTH / 5.0)..(consts::WINDOW_WIDTH - consts::WINDOW_WIDTH / 5.0),
+            ),
+            rng.random_range(
+                (consts::WINDOW_HEIGHT / 5.0)
+                    ..(consts::WINDOW_HEIGHT - consts::WINDOW_HEIGHT / 5.0),
+            ),
         ];
 
         // WARNING: Specific to 2D space!!!!
@@ -130,53 +128,39 @@ fn draw_particles(particles: &Vec<Particle>) {
     }
 }
 
-const fn calculate_grid_cell_size() -> f32 {
-    let mut a = WINDOW_WIDTH;
-    let mut b = WINDOW_HEIGHT;
-    let mut temp: f32;
-
-    while b != 0.0 {
-        temp = b;
-        b = a % b;
-        a = temp;
-    }
-
-    return a;
-}
-
 fn draw_grid() {
     let (mut x1, mut y1): (f32, f32);
     let (mut x2, mut y2): (f32, f32);
     let mut i: f32;
 
     // vertical lines
-    i = CELL_SIZE;
-    while i < WINDOW_WIDTH {
+    i = consts::CELL_SIZE;
+    while i < consts::WINDOW_WIDTH {
         (x1, y1) = (i, 0.0);
-        (x2, y2) = (i, WINDOW_HEIGHT);
+        (x2, y2) = (i, consts::WINDOW_HEIGHT);
 
         draw_line(x1, y1, x2, y2, 1.0, GRAY);
 
-        i += CELL_SIZE;
+        i += consts::CELL_SIZE;
     }
 
     // horizontal lines
-    i = CELL_SIZE;
-    while i < WINDOW_HEIGHT {
+    i = consts::CELL_SIZE;
+    while i < consts::WINDOW_HEIGHT {
         (x1, y1) = (0.0, i);
-        (x2, y2) = (WINDOW_WIDTH, i);
+        (x2, y2) = (consts::WINDOW_WIDTH, i);
 
         draw_line(x1, y1, x2, y2, 1.0, GRAY);
 
-        i += CELL_SIZE;
+        i += consts::CELL_SIZE;
     }
 }
 
 fn window_configuration() -> window::Conf {
     window::Conf {
         window_title: String::from("Rusty Particles"),
-        window_width: WINDOW_WIDTH as i32,
-        window_height: WINDOW_HEIGHT as i32,
+        window_width: consts::WINDOW_WIDTH as i32,
+        window_height: consts::WINDOW_HEIGHT as i32,
         window_resizable: false,
         ..Default::default()
     }
@@ -186,7 +170,7 @@ fn window_configuration() -> window::Conf {
 async fn main() {
     let mut particles: Vec<Particle> = Vec::new();
 
-    generate_random_particles(PARTICLES_QUANTITY, &mut particles);
+    generate_random_particles(consts::PARTICLES_QUANTITY, &mut particles);
 
     loop {
         clear_background(BLACK);
