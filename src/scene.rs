@@ -25,7 +25,16 @@ pub fn display_status_bar() {
     let particles_count = consts::PARTICLES_QUANTITY;
 
     let status_text = format!("fps: {:>3}, particles: {}", fps, particles_count);
+    let text_measures = measure_text(&status_text, None, 30, 1.0);
 
+    draw_rectangle(
+        20.0,
+        0.0,
+        text_measures.width,
+        text_measures.height + 5.0,
+        BLACK,
+    );
+    
     draw_text(&status_text, 20.0, 20.0, 30.0, WHITE);
 }
 
@@ -67,6 +76,16 @@ pub fn display_feedback_message(state: &mut GlobalState) {
     }
 
     if !state.feedback_message.is_empty() {
+        let text_measures = measure_text(&state.feedback_message, None, 30, 1.0);
+        
+        draw_rectangle(
+            20.0,
+            consts::WINDOW_HEIGHT - 40.0,
+            text_measures.width,
+            text_measures.height + 5.0,
+            BLACK,
+        );
+        
         draw_text(
             &state.feedback_message,
             20.0,
@@ -81,9 +100,17 @@ pub fn show_mouse_coordinates() {
     let lens_center = mouse_position();
 
     let status_text = format!("{:?}", lens_center);
-    
+
     let text_measures = measure_text(&status_text, None, 30, 1.0);
 
+    draw_rectangle(
+        consts::WINDOW_WIDTH - text_measures.width - 20.0,
+        consts::WINDOW_HEIGHT - 40.0,
+        text_measures.width,
+        text_measures.height + 5.0,
+        BLACK,
+    );
+    
     draw_text(
         &status_text,
         consts::WINDOW_WIDTH - text_measures.width - 20.0,
