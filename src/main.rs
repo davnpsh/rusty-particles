@@ -1,4 +1,5 @@
 mod consts;
+mod controls;
 mod physics;
 mod scene;
 mod setup;
@@ -25,6 +26,8 @@ async fn main() {
     setup::orbital_system(&mut state, consts::PARTICLES_QUANTITY);
 
     loop {
+        controls::handle_input(&mut state);
+
         scene::draw_grid();
 
         physics::apply(&mut state);

@@ -180,5 +180,7 @@ pub fn apply(state: &mut GlobalState) {
             update_particle_position(p);
         });
 
-    handle_collision_between_particles(particles);
+    if state.particle_collisions_enabled {
+        handle_collision_between_particles(particles);
+    }
 }
