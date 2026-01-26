@@ -12,7 +12,7 @@ Practicing Rust!!!!!!!! :D
 - [ ] Randomize current preset
 - [ ] Load presets with quick buttons
 - [x] Status bar with FPS, particle count, etc....
-- [ ] Show coordinates on mouse hover
+- [x] Show coordinates on mouse hover
 - [ ] Create particles with right-click
 - [ ] Drag particles with left-click (aaaand maybe give them acceleration?)
 - [ ] WEBASSEMBLY??????????????????

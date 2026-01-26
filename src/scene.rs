@@ -76,3 +76,19 @@ pub fn display_feedback_message(state: &mut GlobalState) {
         );
     }
 }
+
+pub fn show_mouse_coordinates() {
+    let lens_center = mouse_position();
+
+    let status_text = format!("{:?}", lens_center);
+    
+    let text_measures = measure_text(&status_text, None, 30, 1.0);
+
+    draw_text(
+        &status_text,
+        consts::WINDOW_WIDTH - text_measures.width - 20.0,
+        consts::WINDOW_HEIGHT - 20.0,
+        30.0,
+        WHITE,
+    );
+}
