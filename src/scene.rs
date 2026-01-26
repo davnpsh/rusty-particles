@@ -1,10 +1,13 @@
 use crate::consts;
-use crate::types;
+use crate::state::GlobalState;
+// use crate::types;
 
 use macroquad::prelude::*;
 
 // WARNING: Specific to 2D space!!!!
-pub fn draw_particles(particles: &Vec<types::Particle>) {
+pub fn draw_particles(state: &mut GlobalState) {
+    let particles = &state.particles;
+
     for i in 0..particles.len() {
         draw_circle(
             particles[i].position.x,
@@ -16,12 +19,12 @@ pub fn draw_particles(particles: &Vec<types::Particle>) {
 }
 
 pub fn display_status_bar() {
-	let fps = get_fps();
-	let particles_count = consts::PARTICLES_QUANTITY;
+    let fps = get_fps();
+    let particles_count = consts::PARTICLES_QUANTITY;
 
-	let status_text = format!("fps: {:>3}, particles: {}", fps, particles_count);
-	
-	draw_text(&status_text, 20.0, 20.0, 30.0, WHITE);
+    let status_text = format!("fps: {:>3}, particles: {}", fps, particles_count);
+
+    draw_text(&status_text, 20.0, 20.0, 30.0, WHITE);
 }
 
 pub fn draw_grid() {

@@ -2,8 +2,10 @@ mod consts;
 mod physics;
 mod scene;
 mod setup;
+mod state;
 mod types;
 
+use crate::state::GlobalState;
 use macroquad::{prelude::*, window};
 
 fn window_configuration() -> window::Conf {
@@ -18,17 +20,16 @@ fn window_configuration() -> window::Conf {
 
 #[macroquad::main(window_configuration)]
 async fn main() {
-    let mut particles: Vec<types::Particle> = Vec::new();
+    let mut state = GlobalState::default();
 
-    // setup::random_particles(consts::PARTICLES_QUANTITY, &mut particles);
-    setup::orbital_system(consts::PARTICLES_QUANTITY, &mut particles);
+    setup::orbital_system(&mut state, consts::PARTICLES_QUANTITY);
 
     loop {
         scene::draw_grid();
 
-        physics::apply(&mut particles);
-        scene::draw_particles(&particles);
-        
+        physics::apply(&mut state);
+        scene::draw_particles(&mut state);
+
         scene::display_status_bar();
 
         next_frame().await;

@@ -1,4 +1,5 @@
 use crate::consts;
+use crate::state::GlobalState;
 use crate::types;
 
 use rayon::prelude::*;
@@ -127,7 +128,9 @@ fn calculate_g_force(a: &types::Particle, b: &types::Particle) -> types::Vector 
     };
 }
 
-pub fn apply(particles: &mut Vec<types::Particle>) {
+pub fn apply(state: &mut GlobalState) {
+    let particles = &mut state.particles;
+
     let n = particles.len();
     let mut accelerations = vec![types::Vector { x: 0.0, y: 0.0 }; n];
 
