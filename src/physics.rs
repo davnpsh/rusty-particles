@@ -129,6 +129,10 @@ fn calculate_g_force(a: &types::Particle, b: &types::Particle) -> types::Vector 
 }
 
 pub fn apply(state: &mut GlobalState) {
+    if state.paused {
+        return;
+    }
+
     let particles = &mut state.particles;
 
     let n = particles.len();

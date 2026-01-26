@@ -5,6 +5,7 @@ use crate::types;
 pub struct GlobalState {
     pub particles: Vec<types::Particle>,
     pub particle_collisions_enabled: bool,
+    pub paused: bool,
     pub feedback_message: String,
     pub feedback_timestamp: Instant,
 }
@@ -14,6 +15,7 @@ impl Default for GlobalState {
         Self {
             particles: Vec::new(),
             particle_collisions_enabled: true,
+            paused: false,
             feedback_message: String::new(),
             feedback_timestamp: Instant::now(),
         }

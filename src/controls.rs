@@ -15,4 +15,18 @@ pub fn handle_input(state: &mut GlobalState) {
             }
         ));
     }
+
+    // toggle pause
+    if is_key_pressed(KeyCode::Space) {
+        state.paused = !state.paused;
+
+        state.give_feedback(
+            if state.paused {
+                "|| paused"
+            } else {
+                "|> resumed"
+            }
+            .to_string(),
+        );
+    }
 }
