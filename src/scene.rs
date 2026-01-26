@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use crate::consts;
 use crate::state::GlobalState;
 // use crate::types;
@@ -54,5 +56,23 @@ pub fn draw_grid() {
         draw_line(x1, y1, x2, y2, 1.0, GRAY);
 
         i += consts::CELL_SIZE;
+    }
+}
+
+pub fn display_feedback_message(state: &mut GlobalState) {
+    let timeout = Duration::from_secs(3);
+
+    if !state.feedback_message.is_empty() && state.feedback_timestamp.elapsed() > timeout {
+        state.feedback_message.clear();
+    }
+
+    if !state.feedback_message.is_empty() {
+        draw_text(
+            &state.feedback_message,
+            20.0,
+            consts::WINDOW_HEIGHT - 20.0,
+            30.0,
+            WHITE,
+        );
     }
 }

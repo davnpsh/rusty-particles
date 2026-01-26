@@ -34,6 +34,7 @@ async fn main() {
         scene::draw_particles(&mut state);
 
         scene::display_status_bar();
+        scene::display_feedback_message(&mut state);
 
         next_frame().await;
     }
