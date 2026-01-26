@@ -3,37 +3,112 @@ use crate::types;
 
 use rayon::prelude::*;
 
-pub fn update_particle_position(p: &mut types::Particle) {
-    p.position.x += p.velocity.x;
-    p.position.y += p.velocity.y;
+fn handle_collision_between_particles(particles: &mut Vec<types::Particle>) {
+    let len = particles.len();
 
-    // detect collisions left/right walls
+    for i in 0..len {
+        for j in (i + 1)..len {
+            let (left, right) = particles.split_at_mut(j);
+            let a = &mut left[i];
+            let b = &mut right[0];
+
+            let dx = b.position.x - a.position.x;
+            let dy = b.position.y - a.position.y;
+
+            let dist2 = dx * dx + dy * dy;
+            let min_dist = a.radius + b.radius;
+
+            // no collision
+            if dist2 >= min_dist * min_dist {
+                continue;
+            }
+
+            let distance = dist2.sqrt().max(0.0001);
+
+            let nx = dx / distance;
+            let ny = dy / distance;
+
+            // relative velocity
+            let rvx = b.velocity.x - a.velocity.x;
+            let rvy = b.velocity.y - a.velocity.y;
+
+            let vel_along_normal = rvx * nx + rvy * ny;
+
+            // Skip if separating
+            if vel_along_normal > 0.0 {
+                continue;
+            }
+
+            let inv_mass_a = if a.fixed_on_screen { 0.0 } else { 1.0 / a.mass };
+            let inv_mass_b = if b.fixed_on_screen { 0.0 } else { 1.0 / b.mass };
+
+            let impulse =
+                -(1.0 + consts::RESTITUTION) * vel_along_normal / (inv_mass_a + inv_mass_b);
+
+            let ix = impulse * nx;
+            let iy = impulse * ny;
+
+            // Apply impulse
+            a.velocity.x -= ix * inv_mass_a * 1.2;
+            a.velocity.y -= iy * inv_mass_a * 1.2;
+
+            b.velocity.x += ix * inv_mass_b * 1.2;
+            b.velocity.y += iy * inv_mass_b * 1.2;
+
+            // Positional correction
+            let overlap = min_dist - distance;
+            let correction = overlap * 0.5;
+
+            a.position.x -= nx * correction;
+            a.position.y -= ny * correction;
+
+            b.position.x += nx * correction;
+            b.position.y += ny * correction;
+        }
+    }
+}
+
+fn handle_particle_bounds_collision(p: &mut types::Particle) {
+    // LEFT
     if p.position.x - p.radius < 0.0 {
         p.position.x = p.radius;
         p.velocity.x = -p.velocity.x * consts::RESTITUTION;
-    } else if p.position.x + p.radius > consts::WINDOW_WIDTH {
+    }
+
+    // RIGHT
+    if p.position.x + p.radius > consts::WINDOW_WIDTH {
         p.position.x = consts::WINDOW_WIDTH - p.radius;
         p.velocity.x = -p.velocity.x * consts::RESTITUTION;
     }
 
-    // detect collisions top/bottom walls
+    // TOP
     if p.position.y - p.radius < 0.0 {
         p.position.y = p.radius;
         p.velocity.y = -p.velocity.y * consts::RESTITUTION;
-    } else if p.position.y + p.radius > consts::WINDOW_HEIGHT {
+    }
+
+    // BOTTOM
+    if p.position.y + p.radius > consts::WINDOW_HEIGHT {
         p.position.y = consts::WINDOW_HEIGHT - p.radius;
         p.velocity.y = -p.velocity.y * consts::RESTITUTION;
     }
 }
 
-pub fn calculate_distance_vector(a: &types::Particle, b: &types::Particle) -> types::Vector {
+fn update_particle_position(p: &mut types::Particle) {
+    p.position.x += p.velocity.x;
+    p.position.y += p.velocity.y;
+
+    handle_particle_bounds_collision(p);
+}
+
+fn calculate_distance_vector(a: &types::Particle, b: &types::Particle) -> types::Vector {
     types::Vector {
         x: b.position.x - a.position.x,
         y: b.position.y - a.position.y,
     }
 }
 
-pub fn calculate_g_force(a: &types::Particle, b: &types::Particle) -> types::Vector {
+fn calculate_g_force(a: &types::Particle, b: &types::Particle) -> types::Vector {
     let dead_zone = consts::MINIMUM_MASS;
 
     let distance_vector = calculate_distance_vector(a, b);
@@ -56,7 +131,7 @@ pub fn apply(particles: &mut Vec<types::Particle>) {
     let n = particles.len();
     let mut accelerations = vec![types::Vector { x: 0.0, y: 0.0 }; n];
 
-    // multi-thread
+    // multi-threaded
     accelerations
         .par_iter_mut()
         .enumerate()
@@ -87,7 +162,7 @@ pub fn apply(particles: &mut Vec<types::Particle>) {
             acc.y = ay;
         });
 
-    // multi-thread
+    // multi-threaded
     particles
         .par_iter_mut()
         .zip(accelerations.par_iter())
@@ -101,4 +176,6 @@ pub fn apply(particles: &mut Vec<types::Particle>) {
 
             update_particle_position(p);
         });
+
+    handle_collision_between_particles(particles);
 }
