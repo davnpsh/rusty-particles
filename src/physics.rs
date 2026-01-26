@@ -56,33 +56,6 @@ pub fn apply(particles: &mut Vec<types::Particle>) {
     let n = particles.len();
     let mut accelerations = vec![types::Vector { x: 0.0, y: 0.0 }; n];
 
-    // compute all forces (single-thread)
-    // for i in 0..n {
-    //     let pi = &particles[i];
-
-    //     for j in (i + 1)..n {
-    //         let pj = &particles[j];
-
-    //         if pi.fixed_on_screen && pj.fixed_on_screen {
-    //             continue;
-    //         }
-
-    //         let force = calculate_g_force(pi, pj);
-
-    //         if !pi.fixed_on_screen {
-    //             let inv_mass_i = 1.0 / pi.mass;
-    //             accelerations[i].x += force.x * inv_mass_i;
-    //             accelerations[i].y += force.y * inv_mass_i;
-    //         }
-
-    //         if !pj.fixed_on_screen {
-    //             let inv_mass_j = 1.0 / pj.mass;
-    //             accelerations[j].x -= force.x * inv_mass_j;
-    //             accelerations[j].y -= force.y * inv_mass_j;
-    //         }
-    //     }
-    // }
-
     // multi-thread
     accelerations
         .par_iter_mut()
@@ -113,18 +86,6 @@ pub fn apply(particles: &mut Vec<types::Particle>) {
             acc.x = ax;
             acc.y = ay;
         });
-
-    // update positions (single-thread)
-    // for i in 0..particles.len() {
-    //     if particles[i].fixed_on_screen {
-    //         continue;
-    //     }
-
-    //     particles[i].velocity.x += accelerations[i].x;
-    //     particles[i].velocity.y += accelerations[i].y;
-
-    //     update_particle_position(&mut particles[i]);
-    // }
 
     // multi-thread
     particles
