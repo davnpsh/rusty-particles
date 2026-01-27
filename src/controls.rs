@@ -38,6 +38,31 @@ pub fn handle_input(state: &mut GlobalState) {
         state.give_feedback("reset!".to_string());
     }
 
+    // speed
+    if is_key_pressed(KeyCode::Right) {
+        if state.speed < 2 {
+            state.speed += 1;
+        }
+    }
+
+    if is_key_pressed(KeyCode::Left) {
+        if state.speed > -2 {
+            state.speed -= 1;
+        }
+    }
+
+    if is_key_pressed(KeyCode::Left) || is_key_pressed(KeyCode::Right) {
+        let msg = match state.speed {
+            2 => "speed >>",
+            1 => "speed >",
+            -1 => "< speed",
+            -2 => "<< speed",
+            _ => "normal speed",
+        };
+
+        state.give_feedback(msg.to_string());
+    }
+
     // load presets
     if let Some(key) = get_last_key_pressed() {
         match key {

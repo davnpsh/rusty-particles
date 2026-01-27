@@ -95,9 +95,17 @@ fn handle_particle_bounds_collision(p: &mut types::Particle) {
     }
 }
 
-fn update_particle_position(p: &mut types::Particle) {
-    p.position.x += p.velocity.x;
-    p.position.y += p.velocity.y;
+fn update_particle_position(speed: &mut i8, p: &mut types::Particle) {
+    let dt = match speed {
+        2 => 30.0,
+        1 => 10.0,
+        -1 => 1.0 / 2.0,
+        -2 => 1.0 / 4.0,
+        _ => 1.0,
+    };
+
+    p.position.x += p.velocity.x * dt;
+    p.position.y += p.velocity.y * dt;
 
     handle_particle_bounds_collision(p);
 }
@@ -134,6 +142,7 @@ pub fn apply(state: &mut GlobalState) {
     }
 
     let particles = &mut state.mutable_particles;
+    let speed = &mut state.speed;
 
     let n = particles.len();
     let mut accelerations = vec![types::Vector { x: 0.0, y: 0.0 }; n];
@@ -181,8 +190,12 @@ pub fn apply(state: &mut GlobalState) {
             p.velocity.x += acc.x;
             p.velocity.y += acc.y;
 
-            update_particle_position(p);
+            // update_particle_position(speed, p);
         });
+
+    for p in particles.iter_mut() {
+        update_particle_position(speed, p);
+    }
 
     if state.particle_collisions_enabled {
         handle_collision_between_particles(particles);

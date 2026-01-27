@@ -141,7 +141,10 @@ pub fn show_particle_information(state: &GlobalState) {
 
             let total_speed = (vx * vx + vy * vy).sqrt();
 
-            let status_text = format!("mass: {}, speed: {:>3.3} px/s", particles[i].mass, total_speed);
+            let status_text = format!(
+                "mass: {}, speed: {:>3.3} px/s",
+                particles[i].mass, total_speed
+            );
 
             let text_measures = measure_text(&status_text, None, 30, 1.0);
 

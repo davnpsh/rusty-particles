@@ -9,6 +9,7 @@ pub struct GlobalState {
     pub paused: bool,
     pub feedback_message: String,
     pub feedback_timestamp: Instant,
+    pub speed: i8,
 }
 
 impl Default for GlobalState {
@@ -20,6 +21,7 @@ impl Default for GlobalState {
             paused: false,
             feedback_message: String::new(),
             feedback_timestamp: Instant::now(),
+            speed: 0,
         }
     }
 }
