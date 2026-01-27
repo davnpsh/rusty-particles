@@ -7,7 +7,7 @@ use crate::state::GlobalState;
 use macroquad::prelude::*;
 
 // WARNING: Specific to 2D space!!!!
-pub fn draw_particles(state: &mut GlobalState) {
+pub fn draw_particles(state: &GlobalState) {
     let particles = &state.mutable_particles;
 
     for i in 0..particles.len() {
@@ -20,9 +20,9 @@ pub fn draw_particles(state: &mut GlobalState) {
     }
 }
 
-pub fn display_status_bar() {
+pub fn display_status_bar(state: &GlobalState) {
     let fps = get_fps();
-    let particles_count = consts::PARTICLES_QUANTITY;
+    let particles_count = state.mutable_particles.len();
 
     let status_text = format!("fps: {:>3}, particles: {}", fps, particles_count);
     let text_measures = measure_text(&status_text, None, 30, 1.0);
@@ -34,7 +34,7 @@ pub fn display_status_bar() {
         text_measures.height + 5.0,
         BLACK,
     );
-    
+
     draw_text(&status_text, 20.0, 20.0, 30.0, WHITE);
 }
 
@@ -77,7 +77,7 @@ pub fn display_feedback_message(state: &mut GlobalState) {
 
     if !state.feedback_message.is_empty() {
         let text_measures = measure_text(&state.feedback_message, None, 30, 1.0);
-        
+
         draw_rectangle(
             20.0,
             consts::WINDOW_HEIGHT - 40.0,
@@ -85,7 +85,7 @@ pub fn display_feedback_message(state: &mut GlobalState) {
             text_measures.height + 5.0,
             BLACK,
         );
-        
+
         draw_text(
             &state.feedback_message,
             20.0,
@@ -110,7 +110,7 @@ pub fn show_mouse_coordinates() {
         text_measures.height + 5.0,
         BLACK,
     );
-    
+
     draw_text(
         &status_text,
         consts::WINDOW_WIDTH - text_measures.width - 20.0,

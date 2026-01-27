@@ -5,8 +5,9 @@ use crate::types;
 use rand::prelude::*;
 use std::f32::consts::PI;
 
-pub fn orbital_system(state: &mut GlobalState, n: i32) {
+pub fn orbital_system(state: &mut GlobalState) {
     let particles = &mut state.original_particles;
+    let n = consts::DEFAULT_PARTICLES_QUANTITY;
 
     let mut rng = rand::rng();
     let r1: f32 = 100.0; // inner radius
@@ -17,7 +18,7 @@ pub fn orbital_system(state: &mut GlobalState, n: i32) {
     let cy = r2;
 
     particles.clear();
-    particles.reserve((n + 1) as usize);
+    particles.reserve(n as usize);
 
     // center particle
     particles.push(types::Particle {
@@ -31,7 +32,7 @@ pub fn orbital_system(state: &mut GlobalState, n: i32) {
     // println!("Spawned at {:?}", [cx, cy]);
 
     // orbiting particles
-    for _ in 0..n {
+    for _ in 0..(n - 1) {
         let theta = rng.random_range(0.0..2.0 * PI);
         let u: f32 = rng.random();
 
@@ -68,8 +69,9 @@ pub fn orbital_system(state: &mut GlobalState, n: i32) {
     state.mutable_particles = state.original_particles.clone();
 }
 
-pub fn random_particles(state: &mut GlobalState, n: i32) {
+pub fn random_particles(state: &mut GlobalState) {
     let particles = &mut state.original_particles;
+    let n = consts::DEFAULT_PARTICLES_QUANTITY;
 
     let mut rng = rand::rng();
 
@@ -100,6 +102,6 @@ pub fn random_particles(state: &mut GlobalState, n: i32) {
 
         particles.push(particle);
     }
-    
+
     state.mutable_particles = state.original_particles.clone();
 }

@@ -24,7 +24,7 @@ async fn main() {
     let mut state = GlobalState::default();
 
     // load preset 1 by default
-    setup::orbital_system(&mut state, consts::PARTICLES_QUANTITY);
+    setup::orbital_system(&mut state);
 
     loop {
         controls::handle_input(&mut state);
@@ -32,9 +32,9 @@ async fn main() {
         scene::draw_grid();
 
         physics::apply(&mut state);
-        scene::draw_particles(&mut state);
+        scene::draw_particles(&state);
 
-        scene::display_status_bar();
+        scene::display_status_bar(&state);
         scene::display_feedback_message(&mut state);
         scene::show_mouse_coordinates();
 
