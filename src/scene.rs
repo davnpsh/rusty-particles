@@ -119,3 +119,47 @@ pub fn show_mouse_coordinates() {
         WHITE,
     );
 }
+
+pub fn show_particle_information(state: &GlobalState) {
+    let particles = &state.mutable_particles;
+    let n = particles.len();
+
+    let (x, y) = mouse_position();
+
+    for i in 0..n {
+        let (h, k) = (particles[i].position.x, particles[i].position.y);
+        let r = particles[i].radius;
+
+        let dx = x - h;
+        let dy = y - k;
+
+        // hovering a particle with the mouse
+        if dx * dx + dy * dy <= r * r {
+            // speed
+            let vx = particles[i].velocity.x;
+            let vy = particles[i].velocity.y;
+
+            let total_speed = (vx * vx + vy * vy).sqrt();
+
+            let status_text = format!("mass: {}, speed: {:>3.3} px/s", particles[i].mass, total_speed);
+
+            let text_measures = measure_text(&status_text, None, 30, 1.0);
+
+            draw_rectangle(
+                consts::WINDOW_WIDTH - text_measures.width - 20.0,
+                0.0,
+                text_measures.width,
+                text_measures.height + 5.0,
+                BLACK,
+            );
+
+            draw_text(
+                &status_text,
+                consts::WINDOW_WIDTH - text_measures.width - 20.0,
+                20.0,
+                30.0,
+                WHITE,
+            );
+        }
+    }
+}

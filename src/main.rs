@@ -37,6 +37,7 @@ async fn main() {
         scene::display_status_bar(&state);
         scene::display_feedback_message(&mut state);
         scene::show_mouse_coordinates();
+        scene::show_particle_information(&state);
 
         next_frame().await;
     }
