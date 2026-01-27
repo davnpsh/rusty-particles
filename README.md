@@ -9,10 +9,10 @@ Practicing Rust!!!!!!!! :D
 - [x] Concurrency to support more particles :D
 - [x] Pause simulation
 - [x] Reset simulation
-- [ ] Load presets with quick buttons
+- [x] Load presets with quick buttons
 - [x] Status bar with FPS, particle count, etc....
 - [x] Show coordinates on mouse hover
-- [ ] Show particle info on hover
+- [x] Show particle info on hover
 - [ ] Create particles with right-click
 - [ ] Drag particles with left-click (aaaand maybe give them acceleration?)
 - [ ] WEBASSEMBLY??????????????????
