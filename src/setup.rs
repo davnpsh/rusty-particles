@@ -5,39 +5,6 @@ use crate::types;
 use rand::prelude::*;
 use std::f32::consts::PI;
 
-#[allow(dead_code)]
-pub fn random_particles(n: i32, particles: &mut Vec<types::Particle>) {
-    let mut rng = rand::rng();
-
-    particles.reserve(n as usize);
-
-    for _ in 0..n {
-        let radius = rng.random_range(consts::MINIMUM_MASS..60.0);
-        let position = types::Vector {
-            x: rng.random_range(
-                (consts::WINDOW_WIDTH / 5.0)..(consts::WINDOW_WIDTH - consts::WINDOW_WIDTH / 5.0),
-            ),
-            y: rng.random_range(
-                (consts::WINDOW_HEIGHT / 5.0)
-                    ..(consts::WINDOW_HEIGHT - consts::WINDOW_HEIGHT / 5.0),
-            ),
-        };
-
-        let velocity = types::Vector { x: 0.0, y: 0.0 };
-
-        let particle = types::Particle {
-            mass: radius,
-            radius: radius,
-            position: position,
-            velocity: velocity,
-            fixed_on_screen: false,
-        };
-
-        particles.push(particle);
-    }
-}
-
-#[allow(dead_code)]
 pub fn orbital_system(state: &mut GlobalState, n: i32) {
     let particles = &mut state.original_particles;
 
@@ -49,6 +16,7 @@ pub fn orbital_system(state: &mut GlobalState, n: i32) {
     let cx = consts::WINDOW_WIDTH / 2.0;
     let cy = r2;
 
+    particles.clear();
     particles.reserve((n + 1) as usize);
 
     // center particle
@@ -97,5 +65,41 @@ pub fn orbital_system(state: &mut GlobalState, n: i32) {
         // println!("Spawned at {:?}", [x, y]);
     }
 
+    state.mutable_particles = state.original_particles.clone();
+}
+
+pub fn random_particles(state: &mut GlobalState, n: i32) {
+    let particles = &mut state.original_particles;
+
+    let mut rng = rand::rng();
+
+    particles.clear();
+    particles.reserve(n as usize);
+
+    for _ in 0..n {
+        let radius = rng.random_range(consts::MINIMUM_MASS..60.0);
+        let position = types::Vector {
+            x: rng.random_range(
+                (consts::WINDOW_WIDTH / 5.0)..(consts::WINDOW_WIDTH - consts::WINDOW_WIDTH / 5.0),
+            ),
+            y: rng.random_range(
+                (consts::WINDOW_HEIGHT / 5.0)
+                    ..(consts::WINDOW_HEIGHT - consts::WINDOW_HEIGHT / 5.0),
+            ),
+        };
+
+        let velocity = types::Vector { x: 0.0, y: 0.0 };
+
+        let particle = types::Particle {
+            mass: radius,
+            radius: radius,
+            position: position,
+            velocity: velocity,
+            fixed_on_screen: false,
+        };
+
+        particles.push(particle);
+    }
+    
     state.mutable_particles = state.original_particles.clone();
 }

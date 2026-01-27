@@ -23,6 +23,7 @@ fn window_configuration() -> window::Conf {
 async fn main() {
     let mut state = GlobalState::default();
 
+    // load preset 1 by default
     setup::orbital_system(&mut state, consts::PARTICLES_QUANTITY);
 
     loop {

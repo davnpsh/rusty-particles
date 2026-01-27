@@ -1,4 +1,5 @@
 use crate::state::GlobalState;
+use crate::{consts, setup};
 use macroquad::prelude::*;
 
 pub fn handle_input(state: &mut GlobalState) {
@@ -29,11 +30,29 @@ pub fn handle_input(state: &mut GlobalState) {
             .to_string(),
         );
     }
-    
+
     // loop
     if is_key_pressed(KeyCode::R) {
-    	state.mutable_particles = state.original_particles.clone();
-     
-     	state.give_feedback("reset!".to_string());
+        state.mutable_particles = state.original_particles.clone();
+
+        state.give_feedback("reset!".to_string());
+    }
+
+    // load presets
+    if let Some(key) = get_last_key_pressed() {
+        match key {
+            // preset 1
+            KeyCode::Key1 => {
+                setup::orbital_system(state, consts::PARTICLES_QUANTITY);
+                state.give_feedback("loaded preset [1]".to_string());
+            }
+
+            // preset 2
+            KeyCode::Key2 => {
+                setup::random_particles(state, consts::PARTICLES_QUANTITY);
+                state.give_feedback("loaded preset [2]".to_string());
+            },
+            _ => {}
+        }
     }
 }
