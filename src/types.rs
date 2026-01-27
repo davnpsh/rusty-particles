@@ -4,6 +4,7 @@ pub struct Vector {
     pub y: f32,
 }
 
+#[derive(Clone)]
 pub struct Particle {
     pub mass: f32,
     pub radius: f32,

@@ -29,4 +29,11 @@ pub fn handle_input(state: &mut GlobalState) {
             .to_string(),
         );
     }
+    
+    // loop
+    if is_key_pressed(KeyCode::L) {
+    	state.mutable_particles = state.original_particles.clone();
+     
+     	state.give_feedback("loop!".to_string());
+    }
 }

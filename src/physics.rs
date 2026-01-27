@@ -133,7 +133,7 @@ pub fn apply(state: &mut GlobalState) {
         return;
     }
 
-    let particles = &mut state.particles;
+    let particles = &mut state.mutable_particles;
 
     let n = particles.len();
     let mut accelerations = vec![types::Vector { x: 0.0, y: 0.0 }; n];

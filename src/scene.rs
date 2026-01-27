@@ -8,7 +8,7 @@ use macroquad::prelude::*;
 
 // WARNING: Specific to 2D space!!!!
 pub fn draw_particles(state: &mut GlobalState) {
-    let particles = &state.particles;
+    let particles = &state.mutable_particles;
 
     for i in 0..particles.len() {
         draw_circle(

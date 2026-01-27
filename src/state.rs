@@ -3,7 +3,8 @@ use std::time::Instant;
 use crate::types;
 
 pub struct GlobalState {
-    pub particles: Vec<types::Particle>,
+    pub original_particles: Vec<types::Particle>,
+    pub mutable_particles: Vec<types::Particle>,
     pub particle_collisions_enabled: bool,
     pub paused: bool,
     pub feedback_message: String,
@@ -13,7 +14,8 @@ pub struct GlobalState {
 impl Default for GlobalState {
     fn default() -> Self {
         Self {
-            particles: Vec::new(),
+            original_particles: Vec::new(),
+            mutable_particles: Vec::new(),
             particle_collisions_enabled: true,
             paused: false,
             feedback_message: String::new(),

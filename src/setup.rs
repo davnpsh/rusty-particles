@@ -39,8 +39,8 @@ pub fn random_particles(n: i32, particles: &mut Vec<types::Particle>) {
 
 #[allow(dead_code)]
 pub fn orbital_system(state: &mut GlobalState, n: i32) {
-    let particles = &mut state.particles;
-    
+    let particles = &mut state.original_particles;
+
     let mut rng = rand::rng();
     let r1: f32 = 100.0; // inner radius
     let r2 = consts::WINDOW_HEIGHT / 2.0; // outer radius
@@ -96,4 +96,6 @@ pub fn orbital_system(state: &mut GlobalState, n: i32) {
 
         // println!("Spawned at {:?}", [x, y]);
     }
+
+    state.mutable_particles = state.original_particles.clone();
 }
