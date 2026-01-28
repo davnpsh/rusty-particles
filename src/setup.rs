@@ -27,6 +27,7 @@ pub fn orbital_system(state: &mut GlobalState) {
         position: types::Vector { x: cx, y: cy },
         velocity: types::Vector { x: 0.0, y: 0.0 },
         fixed_on_screen: true,
+        dragging: false,
     });
 
     // println!("Spawned at {:?}", [cx, cy]);
@@ -61,6 +62,7 @@ pub fn orbital_system(state: &mut GlobalState) {
             position: types::Vector { x: x, y: y },
             velocity: types::Vector { x: vx, y: vy },
             fixed_on_screen: false,
+            dragging: false,
         });
 
         // println!("Spawned at {:?}", [x, y]);
@@ -98,6 +100,7 @@ pub fn random_particles(state: &mut GlobalState) {
             position: position,
             velocity: velocity,
             fixed_on_screen: false,
+            dragging: false,
         };
 
         particles.push(particle);

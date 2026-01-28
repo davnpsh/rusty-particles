@@ -5,6 +5,7 @@ mod scene;
 mod setup;
 mod state;
 mod types;
+mod utils;
 
 use crate::state::GlobalState;
 use macroquad::{prelude::*, window};

@@ -11,4 +11,5 @@ pub struct Particle {
     pub position: Vector,
     pub velocity: Vector,
     pub fixed_on_screen: bool,
+    pub dragging: bool,
 }

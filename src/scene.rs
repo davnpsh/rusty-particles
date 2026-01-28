@@ -3,6 +3,7 @@ use std::time::Duration;
 use crate::consts;
 use crate::state::GlobalState;
 // use crate::types;
+use crate::utils;
 
 use macroquad::prelude::*;
 
@@ -124,17 +125,17 @@ pub fn show_particle_information(state: &GlobalState) {
     let particles = &state.mutable_particles;
     let n = particles.len();
 
-    let (x, y) = mouse_position();
+    // let (x, y) = mouse_position();
 
     for i in 0..n {
-        let (h, k) = (particles[i].position.x, particles[i].position.y);
-        let r = particles[i].radius;
+        // let (h, k) = (particles[i].position.x, particles[i].position.y);
+        // let r = particles[i].radius;
 
-        let dx = x - h;
-        let dy = y - k;
+        // let dx = x - h;
+        // let dy = y - k;
 
         // hovering a particle with the mouse
-        if dx * dx + dy * dy <= r * r {
+        if utils::is_mouse_over_particle(&particles[i]) {
             // speed
             let vx = particles[i].velocity.x;
             let vy = particles[i].velocity.y;

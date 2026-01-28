@@ -80,4 +80,20 @@ pub fn handle_input(state: &mut GlobalState) {
             _ => {}
         }
     }
+
+    handle_mouse_events(state);
+}
+
+fn handle_mouse_events(state: &mut GlobalState) {
+    if is_mouse_button_pressed(MouseButton::Left) {
+        println!("pressed!");
+    }
+
+    if is_mouse_button_down(MouseButton::Left) {
+        println!("down!");
+    }
+
+    if is_mouse_button_released(MouseButton::Left) {
+        println!("released!");
+    }
 }
