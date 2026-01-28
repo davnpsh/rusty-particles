@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use crate::state::GlobalState;
 use crate::{consts, utils};
 use crate::{setup, types};
@@ -89,6 +91,7 @@ fn handle_mouse_events(state: &mut GlobalState) {
     let particles = &mut state.mutable_particles;
     let n = particles.len();
 
+    // altering particles
     if is_mouse_button_pressed(MouseButton::Left) {
         for i in 0..n {
             if utils::is_mouse_over_particle(&particles[i]) {
@@ -143,5 +146,46 @@ fn handle_mouse_events(state: &mut GlobalState) {
 
             state.dragging_particle_index = -1;
         }
+    }
+
+    // creating particles
+    if is_mouse_button_pressed(MouseButton::Right) {
+        state.particle_creation_timestamp = Instant::now();
+    }
+
+    if is_mouse_button_down(MouseButton::Right) {
+        let elapsed = state.particle_creation_timestamp.elapsed().as_millis();
+
+        let mass = elapsed as f32 / 10.0;
+
+        if mass > 0.0 {
+            if mass <= 100.0 {
+                state.particle_creation_mass = mass;
+            } else {
+                state.particle_creation_mass = 100.0;
+            }
+        }
+
+        // draw
+        let (x, y) = mouse_position();
+
+        draw_circle(x, y, state.particle_creation_mass, WHITE);
+    }
+
+    if is_mouse_button_released(MouseButton::Right) {
+        if state.particle_creation_mass > consts::PARTICLE_MINIMUM_MASS {
+            let (x, y) = mouse_position();
+
+            state.mutable_particles.push(types::Particle {
+                mass: state.particle_creation_mass,
+                radius: state.particle_creation_mass,
+                position: types::Vector { x: x, y: y },
+                velocity: types::Vector { x: 0.0, y: 0.0 },
+                fixed_on_screen: false,
+                dragging: false,
+            });
+        }
+
+        state.particle_creation_mass = 0.0;
     }
 }

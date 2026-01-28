@@ -14,7 +14,7 @@ Practicing Rust!!!!!!!! :D
 - [x] Show coordinates on mouse hover
 - [x] Show particle info on hover
 - [x] Speed
-- [ ] Create particles with right-click
+- [x] Create particles with right-click
 - [x] Drag particles with left-click (aaaand maybe give them acceleration?)
 - [ ] Help menu
 - [ ] WEBASSEMBLY??????????????????

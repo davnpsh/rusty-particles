@@ -54,7 +54,7 @@ pub fn orbital_system(state: &mut GlobalState) {
         let vy = dx / r * speed;
 
         // ACTUAL radius value
-        let radius_property = rng.random_range(consts::MINIMUM_MASS..(r1 / 3.0));
+        let radius_property = rng.random_range(consts::PARTICLE_MINIMUM_MASS..(r1 / 3.0));
 
         particles.push(types::Particle {
             mass: radius_property,
@@ -81,7 +81,7 @@ pub fn random_particles(state: &mut GlobalState) {
     particles.reserve(n as usize);
 
     for _ in 0..n {
-        let radius = rng.random_range(consts::MINIMUM_MASS..60.0);
+        let radius = rng.random_range(consts::PARTICLE_MINIMUM_MASS..60.0);
         let position = types::Vector {
             x: rng.random_range(
                 (consts::WINDOW_WIDTH / 5.0)..(consts::WINDOW_WIDTH - consts::WINDOW_WIDTH / 5.0),

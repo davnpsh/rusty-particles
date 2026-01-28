@@ -118,7 +118,7 @@ fn calculate_distance_vector(a: &types::Particle, b: &types::Particle) -> types:
 }
 
 fn calculate_g_force(a: &types::Particle, b: &types::Particle) -> types::Vector {
-    let dead_zone = consts::MINIMUM_MASS;
+    let dead_zone = consts::PARTICLE_MINIMUM_MASS;
 
     let distance_vector = calculate_distance_vector(a, b);
     let distance = (distance_vector.x.powi(2) + distance_vector.y.powi(2)).sqrt();
