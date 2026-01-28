@@ -1,5 +1,6 @@
 use crate::setup;
 use crate::state::GlobalState;
+use crate::utils;
 use macroquad::prelude::*;
 
 pub fn handle_input(state: &mut GlobalState) {
@@ -85,15 +86,46 @@ pub fn handle_input(state: &mut GlobalState) {
 }
 
 fn handle_mouse_events(state: &mut GlobalState) {
+    let particles = &mut state.mutable_particles;
+    let n = particles.len();
+
     if is_mouse_button_pressed(MouseButton::Left) {
-        println!("pressed!");
+        for i in 0..n {
+            if utils::is_mouse_over_particle(&particles[i]) {
+                let particle = &mut particles[i];
+                
+                if particle.fixed_on_screen {
+                    return;
+                }
+                
+                particle.dragging = true;
+
+                state.dragging_particle_index = i as i32;
+            }
+        }
     }
 
     if is_mouse_button_down(MouseButton::Left) {
-        println!("down!");
+        if state.dragging_particle_index != -1 {
+            let particle = &particles[state.dragging_particle_index as usize];
+
+            let (x, y) = mouse_position();
+
+            draw_circle(x, y, particle.radius, WHITE);
+        }
     }
 
     if is_mouse_button_released(MouseButton::Left) {
-        println!("released!");
+        if state.dragging_particle_index != -1 {
+            let particle = &mut particles[state.dragging_particle_index as usize];
+
+            let (x, y) = mouse_position();
+            particle.position.x = x;
+            particle.position.y = y;
+
+            particle.dragging = false;
+
+            state.dragging_particle_index = -1;
+        }
     }
 }

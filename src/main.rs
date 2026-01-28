@@ -28,9 +28,9 @@ async fn main() {
     setup::orbital_system(&mut state);
 
     loop {
-        controls::handle_input(&mut state);
-
         scene::draw_grid();
+        
+        controls::handle_input(&mut state);
 
         physics::apply(&mut state);
         scene::draw_particles(&state);

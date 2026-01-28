@@ -12,6 +12,10 @@ pub fn draw_particles(state: &GlobalState) {
     let particles = &state.mutable_particles;
 
     for i in 0..particles.len() {
+        if particles[i].dragging {
+            continue;
+        }
+
         draw_circle(
             particles[i].position.x,
             particles[i].position.y,
@@ -125,14 +129,10 @@ pub fn show_particle_information(state: &GlobalState) {
     let particles = &state.mutable_particles;
     let n = particles.len();
 
-    // let (x, y) = mouse_position();
-
     for i in 0..n {
-        // let (h, k) = (particles[i].position.x, particles[i].position.y);
-        // let r = particles[i].radius;
-
-        // let dx = x - h;
-        // let dy = y - k;
+        if particles[i].dragging {
+            continue;
+        }
 
         // hovering a particle with the mouse
         if utils::is_mouse_over_particle(&particles[i]) {

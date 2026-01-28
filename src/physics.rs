@@ -154,7 +154,7 @@ pub fn apply(state: &mut GlobalState) {
         .for_each(|(i, acc)| {
             let pi = &particles[i];
 
-            if pi.fixed_on_screen {
+            if pi.fixed_on_screen || pi.dragging {
                 return;
             }
 
@@ -183,7 +183,7 @@ pub fn apply(state: &mut GlobalState) {
         .par_iter_mut()
         .zip(accelerations.par_iter())
         .for_each(|(p, acc)| {
-            if p.fixed_on_screen {
+            if p.fixed_on_screen || p.dragging {
                 return;
             }
 

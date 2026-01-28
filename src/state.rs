@@ -10,6 +10,7 @@ pub struct GlobalState {
     pub feedback_message: String,
     pub feedback_timestamp: Instant,
     pub speed: i8,
+    pub dragging_particle_index: i32,
 }
 
 impl Default for GlobalState {
@@ -22,6 +23,7 @@ impl Default for GlobalState {
             feedback_message: String::new(),
             feedback_timestamp: Instant::now(),
             speed: 0,
+            dragging_particle_index: -1,
         }
     }
 }
