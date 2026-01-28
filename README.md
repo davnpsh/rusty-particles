@@ -15,6 +15,6 @@ Practicing Rust!!!!!!!! :D
 - [x] Show particle info on hover
 - [x] Speed
 - [ ] Create particles with right-click
-- [ ] Drag particles with left-click (aaaand maybe give them acceleration?)
+- [x] Drag particles with left-click (aaaand maybe give them acceleration?)
 - [ ] Help menu
 - [ ] WEBASSEMBLY??????????????????
