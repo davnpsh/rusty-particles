@@ -50,11 +50,11 @@ fn handle_collision_between_particles(particles: &mut Vec<types::Particle>) {
             let iy = impulse * ny;
 
             // Apply impulse
-            a.velocity.x -= ix * inv_mass_a * 1.2;
-            a.velocity.y -= iy * inv_mass_a * 1.2;
+            a.velocity.x -= ix * inv_mass_a;
+            a.velocity.y -= iy * inv_mass_a;
 
-            b.velocity.x += ix * inv_mass_b * 1.2;
-            b.velocity.y += iy * inv_mass_b * 1.2;
+            b.velocity.x += ix * inv_mass_b;
+            b.velocity.y += iy * inv_mass_b;
 
             // Positional correction
             let overlap = min_dist - distance;
