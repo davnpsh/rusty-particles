@@ -167,3 +167,35 @@ pub fn show_particle_information(state: &GlobalState) {
         }
     }
 }
+
+pub fn show_help(state: &GlobalState) {
+    if !state.show_help {
+        return;
+    }
+
+    let text_measures = measure_text("<RMB> create particle", None, 30, 1.0);
+
+    draw_rectangle(
+        0.0,
+        40.0,
+        text_measures.width,
+        (text_measures.height + 5.0) * 10.0,
+        BLACK,
+    );
+
+    let str = String::from(
+        "
+<1-9> load preset
+<r> reset
+<space> pause
+<arrow L> -speed
+<arrow R> +speed
+<LMB> drag particle
+<RMB> create particle
+<c> collisions
+<h> help
+",
+    );
+
+    draw_multiline_text(&str, 0.0, 40.0, 30.0, None, WHITE);
+}

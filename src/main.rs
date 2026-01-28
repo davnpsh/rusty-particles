@@ -29,7 +29,7 @@ async fn main() {
 
     loop {
         scene::draw_grid();
-        
+
         controls::handle_input(&mut state);
 
         physics::apply(&mut state);
@@ -39,6 +39,7 @@ async fn main() {
         scene::display_feedback_message(&mut state);
         scene::show_mouse_coordinates();
         scene::show_particle_information(&state);
+        scene::show_help(&state);
 
         next_frame().await;
     }

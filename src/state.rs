@@ -14,6 +14,7 @@ pub struct GlobalState {
     pub last_particle_dragging_position: types::Vector,
     pub particle_creation_timestamp: Instant,
     pub particle_creation_mass: f32,
+    pub show_help: bool,
 }
 
 impl Default for GlobalState {
@@ -30,6 +31,7 @@ impl Default for GlobalState {
             last_particle_dragging_position: types::Vector { x: 0.0, y: 0.0 },
             particle_creation_timestamp: Instant::now(),
             particle_creation_mass: 0.0,
+            show_help: false,
         }
     }
 }

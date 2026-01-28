@@ -6,6 +6,11 @@ use crate::{setup, types};
 use macroquad::prelude::*;
 
 pub fn handle_input(state: &mut GlobalState) {
+    // toggle help
+    if is_key_pressed(KeyCode::H) {
+        state.show_help = !state.show_help;
+    }
+
     // toggle collisions
     if is_key_pressed(KeyCode::C) {
         state.particle_collisions_enabled = !state.particle_collisions_enabled;
