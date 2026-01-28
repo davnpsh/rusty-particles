@@ -115,7 +115,7 @@ fn handle_mouse_events(state: &mut GlobalState) {
             let (x, y) = mouse_position();
             state.last_particle_dragging_position = types::Vector { x: x, y: y };
 
-            draw_circle(x, y, particle.radius, WHITE);
+            draw_circle(x, y, particle.radius, BLUE);
         }
     }
 
@@ -169,7 +169,7 @@ fn handle_mouse_events(state: &mut GlobalState) {
         // draw
         let (x, y) = mouse_position();
 
-        draw_circle(x, y, state.particle_creation_mass, WHITE);
+        draw_circle(x, y, state.particle_creation_mass, GREEN);
     }
 
     if is_mouse_button_released(MouseButton::Right) {
