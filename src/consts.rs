@@ -17,7 +17,6 @@ pub const CELL_SIZE: f32 = {
 // physics stuff
 pub const G: f32 = 1.0;
 pub const MINIMUM_MASS: f32 = 10.0;
-// pub const DIMENSIONS: usize = 2;
-#[allow(dead_code)]
 pub const DEFAULT_PARTICLES_QUANTITY: i32 = 5;
 pub const RESTITUTION: f32 = 0.8;
+pub const THROWING_POWER_FACTOR: f32 = 0.2;

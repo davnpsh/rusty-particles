@@ -1,6 +1,6 @@
-use crate::setup;
 use crate::state::GlobalState;
-use crate::utils;
+use crate::{consts, utils};
+use crate::{setup, types};
 use macroquad::prelude::*;
 
 pub fn handle_input(state: &mut GlobalState) {
@@ -93,11 +93,11 @@ fn handle_mouse_events(state: &mut GlobalState) {
         for i in 0..n {
             if utils::is_mouse_over_particle(&particles[i]) {
                 let particle = &mut particles[i];
-                
+
                 if particle.fixed_on_screen {
                     return;
                 }
-                
+
                 particle.dragging = true;
 
                 state.dragging_particle_index = i as i32;
@@ -110,6 +110,7 @@ fn handle_mouse_events(state: &mut GlobalState) {
             let particle = &particles[state.dragging_particle_index as usize];
 
             let (x, y) = mouse_position();
+            state.last_particle_dragging_position = types::Vector { x: x, y: y };
 
             draw_circle(x, y, particle.radius, WHITE);
         }
@@ -119,9 +120,24 @@ fn handle_mouse_events(state: &mut GlobalState) {
         if state.dragging_particle_index != -1 {
             let particle = &mut particles[state.dragging_particle_index as usize];
 
+            // starting point
+            let (h, k) = (
+                state.last_particle_dragging_position.x,
+                state.last_particle_dragging_position.y,
+            );
+
+            // finish point
             let (x, y) = mouse_position();
             particle.position.x = x;
             particle.position.y = y;
+
+            let power_factor = consts::THROWING_POWER_FACTOR;
+
+            let vx = (x - h) * power_factor;
+            let vy = (y - k) * power_factor;
+
+            particle.velocity.x = vx;
+            particle.velocity.y = vy;
 
             particle.dragging = false;
 

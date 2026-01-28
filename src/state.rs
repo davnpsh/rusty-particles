@@ -11,6 +11,7 @@ pub struct GlobalState {
     pub feedback_timestamp: Instant,
     pub speed: i8,
     pub dragging_particle_index: i32,
+    pub last_particle_dragging_position: types::Vector,
 }
 
 impl Default for GlobalState {
@@ -24,6 +25,7 @@ impl Default for GlobalState {
             feedback_timestamp: Instant::now(),
             speed: 0,
             dragging_particle_index: -1,
+            last_particle_dragging_position: types::Vector { x: 0.0, y: 0.0 },
         }
     }
 }
