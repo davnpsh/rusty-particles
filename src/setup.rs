@@ -2,14 +2,15 @@ use crate::consts;
 use crate::state::GlobalState;
 use crate::types;
 
-use rand::prelude::*;
+// use rand::prelude::*;
+use macroquad::rand;
 use std::f32::consts::PI;
 
 pub fn orbital_system(state: &mut GlobalState) {
     let particles = &mut state.original_particles;
     let n = consts::DEFAULT_PARTICLES_QUANTITY;
 
-    let mut rng = rand::rng();
+    // let mut rng = rand::rng();
     let r1: f32 = 100.0; // inner radius
     let r2 = consts::WINDOW_HEIGHT / 2.0; // outer radius
 
@@ -34,8 +35,8 @@ pub fn orbital_system(state: &mut GlobalState) {
 
     // orbiting particles
     for _ in 0..(n - 1) {
-        let theta = rng.random_range(0.0..2.0 * PI);
-        let u: f32 = rng.random();
+        let theta = rand::gen_range(0.0, 2.0 * PI);
+        let u: f32 = rand::gen_range(0.0, 1.0);
 
         let r = (r1.powi(2) + (r2.powi(2) - r1.powi(2)) * u).sqrt();
 
@@ -54,7 +55,7 @@ pub fn orbital_system(state: &mut GlobalState) {
         let vy = dx / r * speed;
 
         // ACTUAL radius value
-        let radius_property = rng.random_range(consts::PARTICLE_MINIMUM_MASS..(r1 / 3.0));
+        let radius_property = rand::gen_range(consts::PARTICLE_MINIMUM_MASS, r1 / 3.0);
 
         particles.push(types::Particle {
             mass: radius_property,
@@ -75,20 +76,21 @@ pub fn random_particles(state: &mut GlobalState) {
     let particles = &mut state.original_particles;
     let n = consts::DEFAULT_PARTICLES_QUANTITY;
 
-    let mut rng = rand::rng();
+    // let mut rng = rand::rng();
 
     particles.clear();
     particles.reserve(n as usize);
 
     for _ in 0..n {
-        let radius = rng.random_range(consts::PARTICLE_MINIMUM_MASS..60.0);
+        let radius = rand::gen_range(consts::PARTICLE_MINIMUM_MASS, 60.0);
         let position = types::Vector {
-            x: rng.random_range(
-                (consts::WINDOW_WIDTH / 5.0)..(consts::WINDOW_WIDTH - consts::WINDOW_WIDTH / 5.0),
+            x: rand::gen_range(
+                consts::WINDOW_WIDTH / 5.0,
+                consts::WINDOW_WIDTH - consts::WINDOW_WIDTH / 5.0,
             ),
-            y: rng.random_range(
-                (consts::WINDOW_HEIGHT / 5.0)
-                    ..(consts::WINDOW_HEIGHT - consts::WINDOW_HEIGHT / 5.0),
+            y: rand::gen_range(
+                consts::WINDOW_HEIGHT / 5.0,
+                consts::WINDOW_HEIGHT - consts::WINDOW_HEIGHT / 5.0,
             ),
         };
 
