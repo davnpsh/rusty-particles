@@ -1,4 +1,4 @@
-use std::time::Duration;
+// use std::time::Duration;
 
 use crate::consts;
 use crate::state::GlobalState;
@@ -74,9 +74,9 @@ pub fn draw_grid() {
 }
 
 pub fn display_feedback_message(state: &mut GlobalState) {
-    let timeout = Duration::from_secs(3);
+	let elapsed = get_time() - state.feedback_timestamp;
 
-    if !state.feedback_message.is_empty() && state.feedback_timestamp.elapsed() > timeout {
+    if !state.feedback_message.is_empty() && elapsed > 3f64 {
         state.feedback_message.clear();
     }
 

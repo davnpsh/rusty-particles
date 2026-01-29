@@ -1,3 +1,4 @@
+use macroquad::prelude::*;
 use std::time::Instant;
 
 use crate::types;
@@ -8,7 +9,7 @@ pub struct GlobalState {
     pub particle_collisions_enabled: bool,
     pub paused: bool,
     pub feedback_message: String,
-    pub feedback_timestamp: Instant,
+    pub feedback_timestamp: f64, //Instant,
     pub speed: i8,
     pub dragging_particle_index: i32,
     pub last_particle_dragging_position: types::Vector,
@@ -25,7 +26,7 @@ impl Default for GlobalState {
             particle_collisions_enabled: true,
             paused: false,
             feedback_message: String::new(),
-            feedback_timestamp: Instant::now(),
+            feedback_timestamp: get_time(),
             speed: 0,
             dragging_particle_index: -1,
             last_particle_dragging_position: types::Vector { x: 0.0, y: 0.0 },
@@ -39,6 +40,6 @@ impl Default for GlobalState {
 impl GlobalState {
     pub fn give_feedback(&mut self, msg: String) {
         self.feedback_message = msg;
-        self.feedback_timestamp = Instant::now();
+        self.feedback_timestamp = get_time();
     }
 }
