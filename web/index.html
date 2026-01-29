@@ -1,0 +1,73 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>TITLE</title>
+		<style>
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				background: black;
+			}
+
+			/* Center canvas */
+			body {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			canvas {
+				display: block;
+				background: black;
+				width: 1280px;
+				height: 720px;
+			}
+
+			/* Overlay title */
+			#title {
+				position: absolute;
+				top: 20px;
+				left: 50%;
+				transform: translateX(-50%);
+				color: white;
+				font-size: 30px;
+				font-weight: bold;
+				pointer-events: none; /* don't block clicks */
+				z-index: 10;
+			}
+
+			#instructions {
+				position: absolute;
+				top: 100px;
+				left: 50%;
+				transform: translateX(-50%);
+				color: white;
+				font-size: 15px;
+				font-weight: bold;
+				pointer-events: none; /* don't block clicks */
+				z-index: 10;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="title">rusty-particles</div>
+		<div id="instructions">press 'h' for instructions</div>
+
+		<canvas id="glcanvas" tabindex="1"></canvas>
+		<script src="https://not-fl3.github.io/miniquad-samples/mq_js_bundle.js"></script>
+
+		<script>
+			// Disable right-click
+			document.addEventListener("contextmenu", function (e) {
+				e.preventDefault();
+			});
+
+			load("rusty-particles.wasm");
+		</script>
+	</body>
+</html>
