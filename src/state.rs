@@ -1,5 +1,5 @@
 use macroquad::prelude::*;
-use std::time::Instant;
+// use std::time::Instant;
 
 use crate::types;
 
@@ -13,7 +13,7 @@ pub struct GlobalState {
     pub speed: i8,
     pub dragging_particle_index: i32,
     pub last_particle_dragging_position: types::Vector,
-    pub particle_creation_timestamp: Instant,
+    pub particle_creation_timestamp: f64, //Instant,
     pub particle_creation_mass: f32,
     pub show_help: bool,
 }
@@ -30,7 +30,7 @@ impl Default for GlobalState {
             speed: 0,
             dragging_particle_index: -1,
             last_particle_dragging_position: types::Vector { x: 0.0, y: 0.0 },
-            particle_creation_timestamp: Instant::now(),
+            particle_creation_timestamp: get_time(),
             particle_creation_mass: 0.0,
             show_help: false,
         }

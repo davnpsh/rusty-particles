@@ -1,4 +1,4 @@
-use std::time::Instant;
+// use std::time::Instant;
 
 use crate::state::GlobalState;
 use crate::{consts, utils};
@@ -155,22 +155,21 @@ fn handle_mouse_events(state: &mut GlobalState) {
 
     // creating particles
     if is_mouse_button_pressed(MouseButton::Right) {
-        state.particle_creation_timestamp = Instant::now();
+        state.particle_creation_timestamp = get_time(); //Instant::now();
     }
 
     if is_mouse_button_down(MouseButton::Right) {
-        let elapsed = state.particle_creation_timestamp.elapsed().as_millis();
+        // let elapsed = state.particle_creation_timestamp.elapsed().as_millis();
+        let elapsed = get_time() - state.particle_creation_timestamp;
 
-        let mass = elapsed as f32 / 10.0;
+        let mass = elapsed * 100.0;
 
-        if mass > 0.0 {
-            if mass <= 100.0 {
-                state.particle_creation_mass = mass;
-            } else {
-                state.particle_creation_mass = 100.0;
-            }
+        if mass <= 100.0 {
+            state.particle_creation_mass = mass as f32;
+        } else {
+            state.particle_creation_mass = 100.0;
         }
-
+        
         // draw
         let (x, y) = mouse_position();
 
