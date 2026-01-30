@@ -1,20 +1,32 @@
 # Rusty Particles
 
-Practicing Rust!!!!!!!! :D
+A particle simulator that models gravitational attraction written in Rust using [Macroquad](https://macroquad.rs/) to practice the language.
 
-## TODO features
+![demo_img](./_static/demo.png)
 
-- [x] Collisions between particles and screen
-- [x] Collisions between particles
-- [x] Concurrency to support more particles :D
-- [x] Pause simulation
-- [x] Reset simulation
-- [x] Load presets with quick buttons
-- [x] Status bar with FPS, particle count, etc....
-- [x] Show coordinates on mouse hover
-- [x] Show particle info on hover
-- [x] Speed
-- [x] Create particles with right-click
-- [x] Drag particles with left-click (aaaand maybe give them acceleration?)
-- [ ] Help menu
-- [ ] WEBASSEMBLY??????????????????
+## Demo
+
+You can try it directly in your browser by visiting: https://davnpsh.github.io/rusty-particles/. After visiting the page, press "h" to display instructions.
+
+## Features
+
+- Collisions between particles and walls
+- Pause/reset simulation
+- Load presets with quick buttons
+- Control simulation speed
+- Create and drag particle with the mouse
+
+## Build
+
+### Native
+
+```sh
+cargo build
+```
+
+### WASM
+
+```sh
+rustup target add wasm32-unknown-unknown
+cargo build --target wasm32-unknown-unknown
+```
